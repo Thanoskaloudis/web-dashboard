@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { Select } from './components/Select/Select';
+import { Predictions } from './components/Widgets/Predictions/Predictions';
 import * as SeriesAPI from "./utils/SeriesAPI";
 
 function App() {
   const [seriesOptions, setSeriesOptions] = useState<string[]>([]);
   const [selectedSeriesData, setSelectedSeriesData] = useState<object[]>([]);
   const [selectedSeriesResults, setSelectedSeriesResults] = useState<object>([]);
+  const [selectedSeries, setSelectedSeries] = useState('');
+  const [compareData, setCompareData] = useState<object[]>([]);
   
   useEffect(() => {
     const getSeries = async () => {
@@ -20,9 +23,12 @@ function App() {
     };
 
     getSeries();
-  }, [setSeriesOptions]);
+    createPredictionData();
+  }, [setSeriesOptions, selectedSeriesData, selectedSeriesResults]);
 
   const handleUpdateSelection = async (e: string) => {
+    setSelectedSeries(e);
+
     try {
       const data = await SeriesAPI.getData(e);
       const results = await SeriesAPI.getResults(e);
@@ -34,6 +40,22 @@ function App() {
     } catch(error) {
       console.log('Fetch error: ', error);
     }
+
+    createPredictionData();
+  }
+
+  const createPredictionData = () => {
+    const data = [];
+    const length = selectedSeriesData.length;
+
+    for (let i = 0; i < length; i++) {
+      data.push({
+          predictions:(selectedSeriesResults as any).predictions[i].prediction,
+          actual: +(selectedSeriesData[i] as any)[selectedSeries],
+      });
+    }
+
+    setCompareData(data);
   }
 
 
@@ -44,6 +66,7 @@ function App() {
       </header>
       <div className="app--body">
         <Select options={seriesOptions} handleUpdateSelection={handleUpdateSelection}/>
+        <Predictions data={compareData}/>
       </div>
     </div>
   );
