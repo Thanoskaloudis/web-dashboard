@@ -1,0 +1,17 @@
+.select {
+  width: 12rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  &--selection {
+    border: 1px solid #c4bfbf;
+    padding: 0.25em 0.5em;
+    font-size: 1.25rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #fff;
+  }
+}
