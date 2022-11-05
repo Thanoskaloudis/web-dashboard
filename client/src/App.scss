@@ -1,0 +1,17 @@
+.app {
+
+  &--header {
+    background-color: #282c34;
+    min-height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 30%);
+
+    &__title {
+      color: white;
+      font-size: calc(10px + 2vmin);
+      margin-left: 2rem;
+    }
+  }
+}
