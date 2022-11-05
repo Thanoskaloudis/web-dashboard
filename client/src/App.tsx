@@ -5,6 +5,8 @@ import * as SeriesAPI from "./utils/SeriesAPI";
 
 function App() {
   const [seriesOptions, setSeriesOptions] = useState<string[]>([]);
+  const [selectedSeriesData, setSelectedSeriesData] = useState<object[]>([]);
+  const [selectedSeriesResults, setSelectedSeriesResults] = useState<object>([]);
   
   useEffect(() => {
     const getSeries = async () => {
@@ -20,9 +22,20 @@ function App() {
     getSeries();
   }, [setSeriesOptions]);
 
-  const handleUpdateSelection = (e: string) => {
-    console.log(e)
+  const handleUpdateSelection = async (e: string) => {
+    try {
+      const data = await SeriesAPI.getData(e);
+      const results = await SeriesAPI.getResults(e);
+      console.log(results);
+      console.log(data);
+      setSelectedSeriesData(data);
+      setSelectedSeriesResults(results);
+
+    } catch(error) {
+      console.log('Fetch error: ', error);
+    }
   }
+
 
   return (
     <div className="app">

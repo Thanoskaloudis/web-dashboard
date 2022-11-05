@@ -9,24 +9,12 @@ export const getSeries = () =>
     .then((res) => res.json())
     .then((data) => data);
 
-export const getData = (book, shelf) =>
-  fetch(`${api}/books/${book.id}`, {
-    method: "PUT",
-    headers: {
-      ...headers,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ shelf }),
-  }).then((res) => res.json());
-
-export const getResults = (query, maxResults) =>
-  fetch(`${api}/search`, {
-    method: "POST",
-    headers: {
-      ...headers,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ query, maxResults }),
-  })
+export const getData = (seriesName) =>
+  fetch(`${api}/data/${seriesName}`, { headers })
     .then((res) => res.json())
-    .then((data) => data.books);
+    .then((data) => data);
+
+    export const getResults = (seriesName) =>
+    fetch(`${api}/results/${seriesName}`, { headers })
+      .then((res) => res.json())
+      .then((data) => data);
